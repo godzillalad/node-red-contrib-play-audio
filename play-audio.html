@@ -14,20 +14,18 @@ RED.nodes.registerType('play audio',{
         return this.name||"play audio";
     },
     onpaletteadd: function() {
-        this.handleDebugMessage = function(t, o) {
+        this.handleDebugMessage = function (t, o) {
             try {
-			    window.AudioContext = window.AudioContext||window.webkitAudioContext||window.mozAudioContext;
-			    var context = new AudioContext();
-			    var source = context.createBufferSource();
-			    context.decodeAudioData(o, function(buffer) {
-				    source.buffer = buffer;
-				    source.connect(context.destination);
-				    source.start(0);
-			    });              
-            }
-            catch(e)
-            {
-                alert("Error: "+e);
+                window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+                var context = new AudioContext();
+                var source = context.createBufferSource();
+                context.decodeAudioData(o, function (buffer) {
+                    source.buffer = buffer;
+                    source.connect(context.destination);
+                    source.start(0);
+                });
+            } catch (e) {
+                alert("Error: " + e);
             }
         };
         RED.comms.subscribe("playaudio", this.handleDebugMessage);
