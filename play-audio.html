@@ -21,7 +21,7 @@ RED.nodes.registerType('play audio',{
                 var context = new AudioContext();
                 var source = context.createBufferSource();
                 
-                var buffer = new Uint8Array(byteArray.length);
+                var buffer = new Uint8Array(byteArray.byteLength);
                 buffer.set(new Uint8Array(byteArray), 0);
 
                 context.decodeAudioData(buffer.buffer, function(buffer) {
