@@ -14,12 +14,15 @@ RED.nodes.registerType('play audio',{
         return this.name||"play audio";
     },
     onpaletteadd: function() {
-        this.handleDebugMessage = function (t, o) {
+        this.playAudioMessage = function (name, audio) {
             try {
                 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
                 var context = new AudioContext();
                 var source = context.createBufferSource();
-                context.decodeAudioData(o, function (buffer) {
+                var audioBuffer = new ArrayBuffer(audio.data.length);
+                var audioArr = new Uint8Array(audioBuffer);
+                audioArr.set(audio.data);
+                context.decodeAudioData(audioBuffer, function (buffer) {
                     source.buffer = buffer;
                     source.connect(context.destination);
                     source.start(0);
@@ -28,7 +31,7 @@ RED.nodes.registerType('play audio',{
                 alert("Error: " + e);
             }
         };
-        RED.comms.subscribe("playaudio", this.handleDebugMessage);
+        RED.comms.subscribe("playaudio", this.playAudioMessage);
     }
 });
 </script>
